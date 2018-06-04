@@ -121,6 +121,9 @@ textarea {
   clear:both;
   visibility:hidden;
 }
+.over-hidden {
+  overflow: hidden;
+}
 .clear {
 	zoom: 1;
 }

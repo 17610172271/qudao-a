@@ -9,7 +9,7 @@
         </li>
         <li class="clear m-b-lg">
           <div class="pull-left person-name">用户登录名:</div>
-          <div class="pull-left text-dark">admin</div>
+          <div class="pull-left text-dark">{{data.username}}</div>
         </li>
         <li class="clear m-b-lg">
           <div class="pull-left person-name">所属角色:</div>
@@ -19,7 +19,7 @@
           <div class="pull-left person-name">出生日期:</div>
           <div class="pull-left text-dark">
             <el-date-picker
-              v-model="birthday"
+              v-model="data.birthday"
               type="date"
               placeholder="选择日期">
             </el-date-picker>
@@ -35,21 +35,21 @@
         </li>
         <li class="clear m-b-lg">
           <div class="pull-left person-name">电子邮件:</div>
-          <div class="pull-left text-dark person-ipt"><el-input placeholder="请输入内容"></el-input></div>
+          <div class="pull-left text-dark person-ipt"><el-input placeholder="请输入内容" v-model="data.email"></el-input></div>
         </li>
         <li class="clear m-b-lg">
           <div class="pull-left person-name">住址邮编:</div>
-          <div class="pull-left text-dark person-ipt"><el-input placeholder="请输入内容"></el-input></div>
+          <div class="pull-left text-dark person-ipt"><el-input placeholder="请输入内容" v-model="data.mobile"></el-input></div>
         </li>
         <li class="clear m-b-lg">
           <div class="pull-left person-name">用户姓名:</div>
-          <div class="pull-left text-dark person-ipt"><el-input placeholder="请输入内容"></el-input></div>
+          <div class="pull-left text-dark person-ipt"><el-input placeholder="请输入内容" v-model="data.nickname"></el-input></div>
         </li>
         <li class="clear m-b-lg">
           <div class="pull-left person-name">性别:</div>
           <div class="pull-left text-dark person-ipt">
-            <el-radio v-model="sex" label="1">男</el-radio>
-            <el-radio v-model="sex" label="2">女</el-radio>
+            <el-radio v-model="data.gender" :label="0">男</el-radio>
+            <el-radio v-model="data.gender" :label="1">女</el-radio>
           </div>
         </li>
         <li class="clear m-b-lg">
@@ -58,7 +58,7 @@
         </li>
         <li class="clear m-b-lg">
           <div class="pull-left person-name">手机号码:</div>
-          <div class="pull-left text-dark person-ipt"><el-input placeholder="请输入内容"></el-input></div>
+          <div class="pull-left text-dark person-ipt"><el-input placeholder="请输入内容" v-model="data.mobile"></el-input></div>
         </li>
         <li class="clear m-b-lg">
           <div class="pull-left person-name">住址:</div>
@@ -68,19 +68,18 @@
       </ul>
       <div class="company-btns text-center">
         <button class="m-r-md text-white bg-blue1">保存</button>
-        <button class="text-white bg-bl person-iptue1">取消</button>
+        <button class="text-white bg-bl person-iptue1" @click="goHome">取消</button>
       </div>
       <div class="person-avatar-container text-center">
         
         <el-upload
-          action="http://localhost:8080/v1/common/upload"
+          :action="host + '/v1/common/upload'"
           :data="{token: $bus.token}"
           :headers="header"
-          :limit="1"
-          :file-list="avatar"
           :on-success="handleChange"
+          :show-file-list="false"
           list-type="text">
-          <div class="person-avatar"><img src="" alt="" class="appbind-uploadimg" width="100%" height="100%"></div>
+          <div class="person-avatar over-hidden relative"><img :src="url + data.avatar" alt="" class="appbind-uploadimg" width="100%"></div>
           <div class="text-muted text-md m-t-sm">图片大小不能超过200kb</div>
           <a href="javascript:;" class="edit-avatar">修改头像</a>
         </el-upload>
@@ -94,12 +93,16 @@
   import api from '@/api'
   export default {
     data: () => ({
-      input: '',
-      companyDate: '',
-      birthday: '',
-      sex: null,
-      avatar: [],
-      avatarUrl: '',
+      data: {
+        avatar: '',
+        email: '',
+        gender: '',
+        mobile: '',
+        nickname: '',
+        username: '',
+        birthday: '',
+      },
+      url: 'http://www.agent_api.com',
       header: {ContentType: 'application/x-www-form-urlencoded'},
       subNavList: {
         parentNode: {
@@ -120,19 +123,38 @@
     components: {
       SubHeader
     },
+    computed: {
+      host () {
+        return 'http://' + window.location.host
+      }
+    },
     methods: {
+      getData () {
+        this.$http.get(api.setting.personInfo, {
+          params: {
+            token: this.$bus.token
+          }
+        }).then(res => {
+          if (res.data.code === 1) {
+            this.data = res.data.data
+          }
+        })
+      },
       handleChange (respones, file, fileList) {
-        this.avatar = fileList.slice(-3)
-        // this.avatarUrl = respones.data.url
+        this.data.avatar = respones.data.url
+      },
+      goHome () {
+        this.$router.push({name: 'home'})
       }
     },
     created () {
+      this.getData()
     },
     watch: {
     }
   }
 </script>
-<style>
+<style scoped>
   .person-container {
     padding-left: 268px;
   }

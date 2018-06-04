@@ -108,7 +108,7 @@
               <div class="appbind-img-upload p-l-sm over-omit">
                 {{logo[0]?logo[0].name:''}}
                 <el-upload
-                  action="http://localhost:8080/v1/common/upload"
+                  :action="host + '/v1/common/upload'"
                   :data="{token: $bus.token}"
                   :headers="header"
                   :limit="1"
@@ -130,7 +130,7 @@
               <div class="appbind-img-upload p-l-sm over-omit">
                 {{copyright[0]?copyright[0].name:''}}
                 <el-upload
-                  action="http://localhost:8080/v1/common/upload"
+                  :action="host + '/v1/common/upload'"
                   :data="{token: $bus.token}"
                   :headers="header"
                   :limit="1"
@@ -221,6 +221,9 @@
     computed: {
       womanRatio () {
         return 100 - this.sexRatio
+      },
+      host () {
+        return 'http://' + window.location.host
       }
     },
     components: {

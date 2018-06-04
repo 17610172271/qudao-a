@@ -47,6 +47,20 @@ export const doc = {
   sdkDownload: '/v1/sdk/sdk_download' // sdk下载
 }
 
+// 系统设置
+  export const setting = {
+    newsList: 'v1/setting/my_message', //消息列表
+    readed: '/v1/setting/message_edit', // 消息标为已读
+    delNews: '/v1/setting/message_del', // 删除消息
+    personInfo: '/v1/setting/personal_data', //个人资料
+    personEdit: '/v1/setting/personal_save', // 个人资料保存&修改密码
+    suggest: '/v1/setting/feedback', // 意见反馈
+    notice: '/v1/setting/notice', // 系统公告
+    noticed: '/v1/setting/notice_edit', // 系统公告标为已读
+    delNotice: '/v1/setting/notice_del', // 删除系统公告
+    companySetting: '/v1/setting/company', // 公司信息设置
+  }
+
 // 账户
 export const account = {
   login: 'account/login'
@@ -59,5 +73,6 @@ export default {
   user,
   application,
   doc,
-  films
+  films,
+  setting
 }

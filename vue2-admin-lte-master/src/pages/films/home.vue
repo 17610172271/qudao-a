@@ -4,7 +4,7 @@
     <div class="page-container">
       <div class="page-toolbar clear">
         <div class="pull-left toolbar-candle">
-          <div class="pull-left m-r-sm app-search relative"><i class="fa fa-search"></i><input type="search" placeholder="请输入应用名称" @keyup="getList" v-model="searchName"></div>
+          <div class="pull-left m-r-sm app-search relative"><i class="fa fa-search"></i><input type="search" placeholder="请输入电影名称" @keyup="getList" v-model="searchName"></div>
           <div class="pull-left m-r-sm" style="width:120px;">
             <el-select v-model="type" clearable placeholder="按类型">
               <el-option
@@ -47,37 +47,37 @@
           </div>
         </div>
         <div class="pull-right clear">
-          <div class="pull-left m-r-sm"><select-checkbox :list="iptList" v-model="selectVal" style="width: 60px;"></select-checkbox></i></div>
+          <div class="pull-left m-r-sm"><select-checkbox :list="selectShow" v-model="selectVal" style="width: 60px;"></select-checkbox></i></div>
           <div class="pull-left btn app-page" @click="delPage"><i class="fa fa-chevron-left"></i></div>
           <div class="pull-left btn app-page app-page-right" @click="addPage"><i class="fa fa-chevron-right"></i></div>
         </div>
       </div>
       <div class="app-content-container">
         <ul>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-first-item text-center">ID</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-name text-center">电影名称</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-type text-center">海报</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-status text-center">类型</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-time text-center">首映时间</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-remark text-center">所属地区</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center">支持语言</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center">电影时长</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center">状态</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center">导演</li>
-          <li class="col-lg-2 col-md-2 col-sm-2 col-xs-2 app-candle text-center">主演</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-first-item text-center" v-show="selectVal.indexOf('ID') != -1">ID</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-name text-center" v-show="selectVal.indexOf('电影名称') != -1">电影名称</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-type text-center" v-show="selectVal.indexOf('海报') != -1">海报</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-status text-center" v-show="selectVal.indexOf('类型') != -1">类型</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-time text-center" v-show="selectVal.indexOf('首映时间') != -1">首映时间</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-remark text-center" v-show="selectVal.indexOf('所属地区') != -1">所属地区</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center"  v-show="selectVal.indexOf('支持语言') != -1">支持语言</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center"  v-show="selectVal.indexOf('电影时长') != -1">电影时长</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center" v-show="selectVal.indexOf('状态') != -1">状态</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center" v-show="selectVal.indexOf('导演') != -1">导演</li>
+          <li class="col-lg-2 col-md-2 col-sm-2 col-xs-2 app-candle text-center" v-show="selectVal.indexOf('主演') != -1">主演</li>
         </ul>
         <ul v-for="item in data.rows">
-          <li class="col-lg-1 col-lg-1 col-sm-1 col-xs-1 app-first-item text-center">{{item.id}}</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-name text-center">{{item.title}}</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-type text-center"></li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-status text-center">{{item.class}}</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-time text-center">{{item.release_date}}</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-remark text-center">{{item.zone}}</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center">汉语,英语</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center"></li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center">{{item.status}}</li>
-          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center">{{item.director}}</li>
-          <li class="col-lg-2 col-md-2 col-sm-2 col-xs-2 app-candle text-center">{{item.actor}}</li>
+          <li class="col-lg-1 col-lg-1 col-sm-1 col-xs-1 app-first-item text-center" v-show="selectVal.indexOf('ID') != -1">{{item.id}}</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-name text-center" v-show="selectVal.indexOf('电影名称') != -1">{{item.title}}</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-type text-center" v-show="selectVal.indexOf('海报') != -1"><img :src="host+item.picurl" alt=""></li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-status text-center" v-show="selectVal.indexOf('类型') != -1">{{item.class}}</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-time text-center" v-show="selectVal.indexOf('首映时间') != -1">{{item.release_date}}</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-remark text-center" v-show="selectVal.indexOf('所属地区') != -1">{{item.zone}}</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center"  v-show="selectVal.indexOf('支持语言') != -1">汉语,英语</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center"  v-show="selectVal.indexOf('电影时长') != -1">{{item.length}}分钟</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center" v-show="selectVal.indexOf('状态') != -1">{{item.status}}</li>
+          <li class="col-lg-1 col-md-1 col-sm-1 col-xs-1 app-candle text-center" v-show="selectVal.indexOf('导演') != -1">{{item.director}}</li>
+          <li class="col-lg-2 col-md-2 col-sm-2 col-xs-2 app-candle text-center" v-show="selectVal.indexOf('主演') != -1">{{item.actor}}</li>
         </ul>
       </div>
       <div class="footer clear m-t-md" v-if="data">
@@ -106,7 +106,7 @@
     data: () => ({
       data: '',
       status: '',
-      selectVal: [],
+      selectVal: ['ID', '电影名称', '海报', '类型', '首映时间', '所属地区', '支持语言', '电影时长', '状态', '导演', '主演'],
       selectedGroup: [],
       selectAll: false,
       calendarVal: '',
@@ -116,6 +116,7 @@
       years: null,
       status: null,
       calendarVal: null,
+      selectShow: ['ID', '电影名称', '海报', '类型', '首映时间', '所属地区', '支持语言', '电影时长', '状态', '导演', '主演'],
       iptList: [
         {label: '待审核', value: 1},
         {label: '已通过', value: 2},
@@ -150,6 +151,9 @@
       },
       offset () {
         return (this.page - 1) * this.limit
+      },
+      host () {
+        return 'http://' + window.location.host
       }
     },
     methods: {
@@ -223,6 +227,13 @@
   }
 </script>
 <style>
+/*flex*/
+  .app-content-container > ul {
+    display: flex;
+  }
+  .app-content-container > ul > li {
+    flex-grow: 1;
+  }
   .appli-container {
     min-width: 910px;
   }
